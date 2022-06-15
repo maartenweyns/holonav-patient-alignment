@@ -4,6 +4,7 @@ import open3d as o3d
 import pandas as pd
 
 from experiments.run_algorithms import run_algorithms
+from general.preprocessing import add_noise
 
 
 def noise_test() -> dict:
@@ -24,6 +25,9 @@ def noise_test() -> dict:
         source = o3d.io.read_point_cloud(data_path + "/skull1/skull1_preop_model.ply")
         target_depth_sensor = o3d.io.read_point_cloud(data_path + "/skull1/occlusion/skull1_0deg.ply")
         target_pointer = o3d.io.read_point_cloud(data_path + "/skull1/skull1_pointer.txt", format="xyz")
+
+        # Add noise
+        target_depth_sensor = add_noise(target_depth_sensor, noise_amt=noise)
 
         run_algorithms(source, target_depth_sensor, target_pointer, results)
 
