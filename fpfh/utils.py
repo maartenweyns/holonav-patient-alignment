@@ -2,6 +2,14 @@ import open3d as o3d
 
 
 def get_fpfh_transformation(source: o3d.geometry.PointCloud, target: o3d.geometry.PointCloud):
+    """
+    Get transformation matrix to roughly align source and
+    target point clouds based on FPFH.
+
+    :param source: The source point cloud
+    :param target: The target point cloud
+    :return: The transformation matrix
+    """
     source.estimate_normals(fast_normal_computation=False)
     source_fpfh = o3d.pipelines.registration.compute_fpfh_feature(
         source,
@@ -28,5 +36,12 @@ def get_fpfh_transformation(source: o3d.geometry.PointCloud, target: o3d.geometr
 
 
 def fpfh_rough_registration(source: o3d.geometry.PointCloud, target: o3d.geometry.PointCloud):
+    """
+    Roughly align the source point cloud to the target point cloud
+    based on FPFH.
+
+    :param source: The source point cloud
+    :param target: The target point cloud
+    """
     transformation = get_fpfh_transformation(source, target)
     source.transform(transformation)
