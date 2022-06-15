@@ -5,7 +5,7 @@ import numpy as np
 import open3d as o3d
 
 
-def add_noise(point_cloud: o3d.geometry.PointCloud, noise_amt: int=4.3):
+def add_noise(point_cloud: o3d.geometry.PointCloud, noise_amt: float = 4.3):
     """
     Add a specified amount of noise to a point cloud. The noise amount represenats
     the max distance a point will be transformed in 3D space.
@@ -32,8 +32,8 @@ def misalign_point_cloud(point_cloud: o3d.geometry.PointCloud):
     :param point_cloud: The point cloud to transform
     """
     transformed = copy.deepcopy(point_cloud)
-    rotation = o3d.geometry.get_rotation_matrix_from_axis_angle([np.pi / 2, 0, 0])
+    rotation = point_cloud.get_rotation_matrix_from_xyz((-np.pi / 2, 0, 0))
     translation = (0, 0, -200)
-    transformed.translate(translation)
     transformed.rotate(rotation)
+    transformed.translate(translation)
     return transformed
