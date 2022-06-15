@@ -13,6 +13,9 @@ def add_noise(point_cloud: o3d.geometry.PointCloud, noise_amt: float = 4.3):
     :param point_cloud: The point cloud to add the noise to
     :param noise_amt: The amount of noise to be added in mm
     """
+    if noise_amt <= 0:
+        # Don't add noise when noise amount is 0
+        return point_cloud
     noisy_pc = copy.deepcopy(point_cloud)
     max_translation = np.sqrt(noise_amt ** 2 / 3)
     for i, p in enumerate(noisy_pc.points):
