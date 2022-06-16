@@ -35,7 +35,7 @@ def misalign_point_cloud(point_cloud: o3d.geometry.PointCloud):
     :param point_cloud: The point cloud to transform
     """
     transformed = copy.deepcopy(point_cloud)
-    rotation = point_cloud.get_rotation_matrix_from_xyz((-np.pi / 2, 0, 0))
+    rotation = point_cloud.get_rotation_matrix_from_xyz((-np.pi / 2, -np.pi / 2, 0))
     translation = (0, 0, -200)
     transformed.rotate(rotation)
     transformed.translate(translation)
