@@ -28,6 +28,13 @@ def downsample_point_cloud(point_cloud: o3d.geometry.PointCloud, voxel_size: int
     return downsampled
 
 
+def get_misalign_translation_rotation():
+    rotation = o3d.geometry.get_rotation_matrix_from_xyz((-np.pi / 2, -np.pi / 2, 0))
+    translation = (0, 0, -200)
+
+    return translation, rotation
+
+
 def misalign_point_cloud(point_cloud: o3d.geometry.PointCloud):
     """
     Apply a random but fixed transformation to a point cloud to misalign it.
@@ -35,8 +42,8 @@ def misalign_point_cloud(point_cloud: o3d.geometry.PointCloud):
     :param point_cloud: The point cloud to transform
     """
     transformed = copy.deepcopy(point_cloud)
-    rotation = point_cloud.get_rotation_matrix_from_xyz((-np.pi / 2, -np.pi / 2, 0))
-    translation = (0, 0, -200)
-    transformed.rotate(rotation)
-    transformed.translate(translation)
+    t, r = get_misalign_translation_rotation()
+
+    transformed.rotate(r)
+    transformed.translate(t)
     return transformed
