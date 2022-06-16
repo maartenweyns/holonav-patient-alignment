@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 import open3d as o3d
 import pandas as pd
 
@@ -17,7 +18,7 @@ def noise_test() -> dict:
     data_path = os.path.dirname(os.path.abspath(__file__)) + "/../data"
     results = {"noise": [], "fpfh": [], "pca": []}
 
-    for noise in [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5]:
+    for noise in np.arange(0, 6.5, 0.5):
         results["noise"].append(noise)
         print("Testing noise level: {}".format(noise))
 
@@ -31,8 +32,7 @@ def noise_test() -> dict:
 
         run_algorithms(source, target_depth_sensor, target_pointer, results)
 
-    print(results)
     df = pd.DataFrame.from_dict(results)
-    df.to_csv(os.path.dirname(os.path.abspath(__file__)) + "/results/noise.csv", index=False)
+    df.to_csv(os.path.dirname(os.path.abspath(__file__)) + "/results/skull1/noise.csv", index=False)
     print("Results saved to CSV")
     return results

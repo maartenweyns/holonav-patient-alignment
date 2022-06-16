@@ -22,7 +22,7 @@ def run_algorithms(source, target_depth_sensor, target_pointer, results):
             break
         # Save result when loop ends
         elif i == 4:
-            print("Too many PCA attempts, using last obtained result")
+            print("Too many FPFH attempts, using last obtained result")
             results["fpfh"].append(round(error, 5))
         # Retry otherwise
         else:
