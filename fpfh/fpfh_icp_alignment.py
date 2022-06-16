@@ -8,7 +8,6 @@ def fpfh_icp_alignment(
         source: o3d.geometry.PointCloud,
         target_depth_sensor: o3d.geometry.PointCloud,
         target_pointer: o3d.geometry.PointCloud,
-        fpfh_downsample: bool=True,
         icp_correspondence: int=4,
         icp_max_iterations: int=30):
     """
@@ -18,12 +17,11 @@ def fpfh_icp_alignment(
     :param source: Source point cloud
     :param target_depth_sensor: Target depth sensor point cloud
     :param target_pointer: Target pointer point cloud
-    :param fpfh_downsample: Enable or disable downsampling in the FPFH rough alignment step
     :param icp_correspondence: Correspondence value for ICP algorithm
     :param icp_max_iterations: Maximum allowed iterations for ICP algorithm
     """
     # Perform FPFH rough registration
-    fpfh_rough_registration(source, target_depth_sensor, fpfh_downsample)
+    fpfh_rough_registration(source, target_depth_sensor)
     # Perform ICP precise registration
     p2p_icp_registration(source, target_depth_sensor, icp_correspondence, icp_max_iterations)
     p2p_icp_registration(source, target_pointer, icp_correspondence, icp_max_iterations)
