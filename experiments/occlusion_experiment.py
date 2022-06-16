@@ -7,6 +7,12 @@ from experiments.run_algorithms import run_algorithms
 
 
 def occlusion_test() -> dict:
+    """
+    Test the different algorithms against different levels of occlusion. Their
+    default settings are used.
+
+    :return: A dictionary containing the results
+    """
     data_path = os.path.dirname(os.path.abspath(__file__)) + "/../data"
     results = {"angle": [], "fpfh": [], "pca": []}
 
