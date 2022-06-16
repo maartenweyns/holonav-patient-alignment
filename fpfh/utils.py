@@ -17,15 +17,17 @@ def get_fpfh_transformation(
     source = source.voxel_down_sample(2)
     target = target.voxel_down_sample(2)
 
-    source.estimate_normals(fast_normal_computation=False)
+    source.estimate_normals(
+        search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=10, max_nn=30))
     source_fpfh = o3d.pipelines.registration.compute_fpfh_feature(
         source,
-        o3d.geometry.KDTreeSearchParamHybrid(radius=9, max_nn=100))
+        o3d.geometry.KDTreeSearchParamHybrid(radius=10, max_nn=100))
 
-    target.estimate_normals(fast_normal_computation=False)
+    target.estimate_normals(
+        search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=10, max_nn=30))
     target_fpfh = o3d.pipelines.registration.compute_fpfh_feature(
         target,
-        o3d.geometry.KDTreeSearchParamHybrid(radius=9, max_nn=100))
+        o3d.geometry.KDTreeSearchParamHybrid(radius=10, max_nn=100))
 
     result = o3d.pipelines.registration.registration_ransac_based_on_feature_matching(
         source, target, source_fpfh, target_fpfh,
