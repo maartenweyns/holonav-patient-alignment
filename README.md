@@ -2,6 +2,8 @@
 
 Algorithmic approaches for performing patient alignment when using the HoloLens as a surgical navigation device.
 
+_Part of the 2021-2022 [research project](https://github.com/TU-Delft-CSE/Research-Project) at [TU Delft](https://github.com/TU-Delft-CSE)._ 
+
 ---
 
 ## Algorithms
