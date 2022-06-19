@@ -14,7 +14,7 @@ def occlusion_test() -> dict:
     :return: A dictionary containing the results
     """
     data_path = os.path.dirname(os.path.abspath(__file__)) + "/../data"
-    results = {"angle": [], "fpfh": [], "pca": []}
+    results = {"angle": [], "fpfh": [], "fpfh+icp": [], "pca": [], "pca+icp": []}
 
     for angle in ["0deg", "5deg_right", "10deg_right", "15deg_right", "20deg_right", "25deg_right",
                   "30deg_right", "35deg_right", "45deg_right"]:

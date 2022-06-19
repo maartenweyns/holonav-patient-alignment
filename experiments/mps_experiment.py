@@ -7,8 +7,10 @@ import open3d as o3d
 import pandas as pd
 
 from general.evaluation import prepare_reference_points, calculate_error
+from icp.p2p_icp import p2p_icp_registration
 from mps.manual_icp_alignment import manual_icp_alignment
 from general.preprocessing import get_misalign_translation_rotation, misalign_point_cloud, add_noise
+from pca.utils import get_pca_translation_rotation
 
 
 def mps_points_test() -> dict:
@@ -19,7 +21,7 @@ def mps_points_test() -> dict:
     :return: A dictionary containing the results
     """
     data_path = os.path.dirname(os.path.abspath(__file__)) + "/../data"
-    results = {"points": [], "mse": []}
+    results = {"points": [], "mps": [], "mps+icp": []}
 
     for num_points in range(20):
         results["points"].append(num_points + 1)
@@ -62,7 +64,7 @@ def mps_noise_test() -> dict:
     :return: A dictionary containing the results
     """
     data_path = os.path.dirname(os.path.abspath(__file__)) + "/../data"
-    results = {"noise": [], "mse": []}
+    results = {"noise": [], "mps": [], "mps+icp": []}
 
     for noise in np.arange(0, 6.5, 0.5):
         results["noise"].append(noise)
@@ -119,13 +121,19 @@ def run_mps_experiment(
     source = misalign_point_cloud(source)
 
     # Perform alignment
-    manual_icp_alignment(
-        source,
-        target_depth_sensor,
-        target_pointer,
-        selected_source,
-        selected_target)
+    # Get translation and rotation from PCA algorithm
+    t, r = get_pca_translation_rotation(selected_source, selected_target)
+
+    # Transform source to target
+    source.rotate(r, center=selected_source.get_center())
+    source.translate(t)
+    mps_error = calculate_error(target_pointer, source, reference_points)
+
+    # Perform ICP precise registration
+    p2p_icp_registration(source, target_depth_sensor)
+    p2p_icp_registration(source, target_pointer)
 
     # Evaluate
-    error = calculate_error(target_pointer, source, reference_points)
-    results["mse"].append(round(error, 5))
+    mps_icp_error = calculate_error(target_pointer, source, reference_points)
+    results["mps"].append(round(mps_error, 5))
+    results["mps+icp"].append(round(mps_icp_error, 5))

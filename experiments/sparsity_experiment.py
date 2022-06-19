@@ -16,7 +16,7 @@ def sparsity_test() -> dict:
     :return: A dictionary containing the results
     """
     data_path = os.path.dirname(os.path.abspath(__file__)) + "/../data"
-    results = {"voxel_size": [], "num_points": [], "fpfh": [], "pca": []}
+    results = {"voxel_size": [], "num_points": [], "fpfh": [], "fpfh+icp": [], "pca": [], "pca+icp": []}
 
     for vs in range(10):
         results["voxel_size"].append(vs + 1)

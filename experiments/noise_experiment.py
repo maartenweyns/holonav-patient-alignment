@@ -16,7 +16,7 @@ def noise_test() -> dict:
     :return: A dictionary containing the results
     """
     data_path = os.path.dirname(os.path.abspath(__file__)) + "/../data"
-    results = {"noise": [], "fpfh": [], "pca": []}
+    results = {"noise": [], "fpfh": [], "fpfh+icp": [], "pca": [], "pca+icp": []}
 
     for noise in np.arange(0, 6.5, 0.5):
         results["noise"].append(noise)
@@ -24,7 +24,7 @@ def noise_test() -> dict:
 
         # Read data
         source = o3d.io.read_point_cloud(data_path + "/skull1/skull1_preop_model.ply")
-        target_depth_sensor = o3d.io.read_point_cloud(data_path + "/skull1/occlusion/skull1_0deg.ply")
+        target_depth_sensor = o3d.io.read_point_cloud(data_path + "/skull1/skull1_preop_model.ply")
         target_pointer = o3d.io.read_point_cloud(data_path + "/skull1/skull1_pointer.txt", format="xyz")
 
         # Add noise
